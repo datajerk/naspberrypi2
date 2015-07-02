@@ -45,7 +45,7 @@ Put the SD card into the Raspberry Pi, turn it on and do basic config.  Log in r
 
 I put a static IP address in my router to get this to stay the same IP address for all my servers. 
 
-![alt router](images/static-routes.png)
+![alt router](images/static-route.png)
 
 ## Configure RAID
 
