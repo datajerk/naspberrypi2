@@ -41,21 +41,66 @@ This operation takes about 18 min on my machine.
 
 Put the SD card into the Raspberry Pi, turn it on and do basic config.  Log in remotely.
 
+## Config OS
+
+``` 
+sudo -s
+apt-get update && apt-get dist-upgrade -y && rpi-update && reboot
+```
+
+Swap to 2GB (remember this old rule that swap is double of memory?)
+```
+cat /etc/dphys-swapfile
+CONF_SWAPSIZE=2048
+CONF_SWAPFILE=/mirror/dswap
+```
+
+And since I always use vim instead of vi by habit: 
+```
+apt-get install -y vim
+```
+
+Also, copy my keys for SSH.  On my mac run: 
+```
+scp ~/.ssh/id_rsa.pub pi@192.168.128.214:/home/pi/.ssh/authorized_keys
+```
+Now I can ssh without password. 
+
+
 ## Static IP Address
 
 I put a static IP address in my router to get this to stay the same IP address for all my servers. 
 
 ![alt router](images/static-route.png)
 
-## Configure RAID
+## Configure Filesystem and RAID
 
 ```
 ssh pi@192.168.128.214
 sudo apt-get install mdadm 
 ```
 When you get a prompt asking to type something, press 'Ok', then type 'none'
-When done, configure devices:
 
+```
+sudo -s
+fdisk /dev/sda
+d (this will delete the current /dev/sda1 if you have one, if not skip)
+n
+enter
+enter
+enter
+enter
+t
+fd
+w
+```
+Repeat above for /dev/sdb
+
+```
+mdadm --zero-superblock /dev/sda1
+mdadm --zero-superblock /dev/sdb1
+```
+Now create the new RAID: 
 ```
 mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
 ```
@@ -63,7 +108,79 @@ Make sure you see the md0 device:
 ```
 cat /proc/partitions
 ```
-Note: I didn't reformat /dev/sdb1 nor /dev/sda1 as I just left them based on what they came with. 
+watch it build: 
+```
+watch cat /proc/mdstat
+```
+This really does take a long time... 
+
+While its going, we can still build the filesystem:
+```
+mkfs /dev/md0
+```
+That takes another 30 min or so... 
+
+Now mount it. 
+
+```
+mkdir /vol1
+mount /dev/md0 /vol1
+```
+
+### Make it persistent
+```
+mdadm --detail --scan >>/etc/mdadm/mdadm.conf
+```
+Now edit /etc/fstab and add the line: 
+```
+/dev/md0        /vol1           auto    defaults        0       0
+```
+
+Edit /boot/cmdline and make sure it comes back up by adding: 
+```
+rootdelay=5
+```
+To the line.  Mine looks like this: 
+```
+dwc_otg.lpm_enable=0 console=ttyAMA0,115200 console=tty1 root=/dev/mmcblk0p2 rootfstype=ext4 elevator=deadline rootdelay=5 rootwait
+```
+Now, Reboot to make sure it comes back up. 
+
+```
+shutdown -r now
+```
+
+When it boots up, you should be able to log in and see the volumes persist. 
+
+## Time Machine and Apple Devices
+
+```
+sudo apt-get -y install netatalk
+sudo update-rc.d netatalk defaults
+```
+
+Configure drives (make sure you make this with the pi user who will be accessing this)
+```
+sudo chmod 777 /vol1
+mkdir /vol1/Photos
+mkdir /vol1/Media
+mkdir /vol1/TimeMachine-iMac
+mkdir /vol1/TimeMachine-MBP
+```
+Create config file.  As root, edit /etc/netatalk/AppleVolumes.default.  Add these lines: 
+```
+/vol1/Media             "iTunes Media"
+/vol1/TimeMachine-MBP options:tm        "MBP TimeMachine"
+/vol1/TimeMachine-iMac options:tm       "iMac TimeMachine"
+/vol1/Photos            "Photos"
+```
+That gives me two TimeMachine capsules, photos and Media folders that will share.  Restart netatalk and mount it 
+to your iDevices!
+```
+service netatalk restart
+```
+
+You should now be able to see them on the net with your Apple devices.  Happy backing up!
 
 ## Sources
 
