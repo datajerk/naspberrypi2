@@ -1,6 +1,16 @@
 # naspberrypi2
 RPi 2 NAS Project
 
+(images/naspberry.jpg)
+
+
+## Shopping List
+
+* [Raspberry Pi](http://www.amazon.com/gp/product/B00TFV5QTA)
+* [2 x 3TB USB Drives](http://www.amazon.com/gp/product/B00E3RH63A)
+* [1 x 16GB SD Card](http://www.amazon.com/gp/product/B00M55C0LK)
+
+Total price for me on June 26, 2015 was $243.11
 
 ## Install OS
 
@@ -29,3 +39,15 @@ sudo dd bs=1m if=2015-05-05-raspbian-wheezy.img of=/dev/disk3
 
 This operation takes about 18 min on my machine. 
 
+Put the SD card into the Raspberry Pi, turn it on and do basic config.  Log in remotely.
+
+## Static IP Address
+
+I put a static IP address in my router to get this to stay the same IP address for all my servers. 
+
+(images/static-routes.png)
+
+## Configure RAID
+
+```
+ssh p
