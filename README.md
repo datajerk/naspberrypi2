@@ -50,4 +50,17 @@ I put a static IP address in my router to get this to stay the same IP address f
 ## Configure RAID
 
 ```
-ssh p
+ssh pi@192.168.128.214
+sudo apt-get install mdadm 
+```
+When you get a prompt asking to type something, press 'Ok', then type 'none'
+When done, configure devices:
+
+```
+mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+```
+Make sure you see the md0 device: 
+```
+cat /proc/partitions
+```
+Note: I didn't reformat /dev/sdb1 nor /dev/sda1 as I just left them based on what they came with. 
