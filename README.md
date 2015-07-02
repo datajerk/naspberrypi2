@@ -64,3 +64,17 @@ Make sure you see the md0 device:
 cat /proc/partitions
 ```
 Note: I didn't reformat /dev/sdb1 nor /dev/sda1 as I just left them based on what they came with. 
+
+## Sources
+
+* http://www.mikronauts.com/raspberry-pi/raspberry-pi-2-nas-experiment-howto/ 
+* http://www.mikronauts.com/raspberry-pi/raspberry-pi-2-usb-hard-drive-and-adapter-tests/ 
+* https://www.raspberrypi.org/forums/viewtopic.php?t=38429 
+* http://www.davidhunt.ie/raid-pi-raspberry-pi-as-a-raid-file-server/
+* https://www.raspberrypi.org/forums/viewtopic.php?f=66&t=99447 
+* https://www.debian.org/doc/manuals/debian-reference/ch09.en.html#_data_encryption_tips 
+* https://thelastmaimou.wordpress.com/2014/04/07/picryption-truecrypt-for-the-pi-2/
+* https://raymii.org/s/articles/Build_a_35_dollar_Time_Capsule_-_Raspberry_Pi_Time_Machine.html
+* https://www.davidschlachter.com/misc/netatalk3rpi
+* https://www.raspberrypi.org/forums/viewtopic.php?f=36&t=84187
+* https://kremalicious.com/ubuntu-as-mac-file-server-and-time-machine-volume/ 
