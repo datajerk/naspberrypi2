@@ -1,7 +1,7 @@
 # naspberrypi2
 RPi 2 NAS Project
 
-(images/naspberry.jpg)
+![alt setup](images/naspberry.jpg)
 
 
 ## Shopping List
@@ -45,7 +45,7 @@ Put the SD card into the Raspberry Pi, turn it on and do basic config.  Log in r
 
 I put a static IP address in my router to get this to stay the same IP address for all my servers. 
 
-(images/static-routes.png)
+![alt router](images/static-routes.png)
 
 ## Configure RAID
 
