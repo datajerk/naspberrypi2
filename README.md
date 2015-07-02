@@ -1,5 +1,10 @@
 # naspberrypi2
+
 RPi 2 NAS Project
+
+This is instructions on how to make a home RAID 1 NAS using a Raspberry Pi and two 3TB hard drives.  
+This home NAS can be used to store backups of pictures, media, etc, in our house. 
+The performance will not knock your socks off.  But its good enough, and its for fun. 
 
 ![alt setup](images/naspberry.jpg)
 
