@@ -53,11 +53,13 @@ sudo -s
 apt-get update && apt-get dist-upgrade -y && rpi-update && reboot
 ```
 
-Swap to 2GB (remember this old rule that swap is double of memory?)
+Swap to 2GB (remember this old rule that swap is double of memory?). 
+We configure swap to be a file on the RAID1 partition we are going to create.  Swapping
+on the SD card is bad.
 ```
 cat /etc/dphys-swapfile
 CONF_SWAPSIZE=2048
-CONF_SWAPFILE=/mirror/dswap
+CONF_SWAPFILE=/vol1/dswap
 ```
 
 And since I always use vim instead of vi by habit: 
@@ -117,11 +119,12 @@ watch it build:
 ```
 watch cat /proc/mdstat
 ```
-This really does take a long time... 
+This really does take a long time... do something else while this is happening.  
 
-While its going, we can still build the filesystem:
+When its done, come back and make a filesystem! 
 ```
-mkfs /dev/md0
+mkfs.ext4 /dev/md0
+When its done, come back and make a filesystem! 
 ```
 That takes another 30 min or so... 
 
@@ -175,8 +178,7 @@ mkdir /vol1/TimeMachine-MBP
 Create config file.  As root, edit /etc/netatalk/AppleVolumes.default.  Add these lines: 
 ```
 /vol1/Media             "iTunes Media"
-/vol1/TimeMachine-MBP options:tm        "MBP TimeMachine"
-/vol1/TimeMachine-iMac options:tm       "iMac TimeMachine"
+/vol1/TimeMachine options:tm        "All TimeMachine Disks"
 /vol1/Photos            "Photos"
 ```
 That gives me two TimeMachine capsules, photos and Media folders that will share.  Restart netatalk and mount it 
