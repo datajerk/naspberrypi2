@@ -119,14 +119,13 @@ watch it build:
 ```
 watch cat /proc/mdstat
 ```
-This really does take a long time... do something else while this is happening.  
+This really does take a long time... It can take 2 days, but you can plow forward even 
+if the RAID build isn't done.  
 
-When its done, come back and make a filesystem! 
+Next, make a filesystem! 
 ```
 mkfs.ext4 /dev/md0
-When its done, come back and make a filesystem! 
 ```
-That takes another 30 min or so... 
 
 Now mount it. 
 
@@ -172,8 +171,7 @@ Configure drives (make sure you make this with the pi user who will be accessing
 sudo chmod 777 /vol1
 mkdir /vol1/Photos
 mkdir /vol1/Media
-mkdir /vol1/TimeMachine-iMac
-mkdir /vol1/TimeMachine-MBP
+mkdir /vol1/TimeMachine
 ```
 Create config file.  As root, edit /etc/netatalk/AppleVolumes.default.  Add these lines: 
 ```
